@@ -2,9 +2,9 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8"/>
-<meta content="GPT Plus 官方代充平台，提供稳定安全的GPT-5升级服务，正规iOS通道，封号包赔。" name="description"/>
+<meta content="GPT Plus 官方代充平台，提供稳定安全的GPT-5.2升级服务，正规iOS通道，封号包赔。" name="description"/>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-<title>GPT4.pro - GPT Plus 官方代充平台 | 2026最新升级通道 🛡️</title>
+<title>GPT4.pro - GPT Plus 官方代充平台 | 2025最新升级通道 🛡️</title>
 <style>
     :root {
       --primary: #14b8a6;      /* 旗舰青 */
@@ -113,7 +113,7 @@
     /* 底部公告条 */
     .sticky-note{ position:fixed; left:0; right:0; bottom:0; z-index:30; display:flex; align-items:center; justify-content:center; gap:.8rem; flex-wrap:wrap; padding:.7rem 1rem; background:rgba(11,18,32,.95); border-top:1px solid var(--surface-glass); backdrop-filter:saturate(140%) blur(4px); font-size:14px; color:#fff; }
     .sticky-note .cta-mini{ all:unset; cursor:pointer; font-weight:700; padding:.42rem .75rem; border-radius:10px; background: linear-gradient(180deg, #2dd4bf 0%, #14b8a6 100%); border:1px solid var(--brand-outline-strong); color:#fff; }
-    .sticky-note .cta-outline{ all:unset; cursor:pointer; font-weight:700; padding:.42rem .75rem; border-radius:10px; border:1px solid var(--brand-outline); color:#fff; background: var(--brand-tint); }
+    .sticky-note .cta-outline{ all:unset; cursor:pointer; font-weight:700; padding:.42rem .75rem; border-radius:10px; border:1px solid var(--brand-outline); color:#fff; background: var(--brand-tint); text-decoration: none; display: inline-block; }
     
     .small-risk{ margin:8px 0 2px; text-align:center; color:rgba(255,255,255,.9); font-size:.9rem; }
     a#openWhyTop{ color:#aef3ff; text-decoration:underline; cursor:pointer; }
@@ -421,7 +421,7 @@
     </div>
     <div class="button-group">
       <button aria-label="立即购买卡密" class="btn-buy" id="buyBtn">🛒 立即购买 (¥129)</button>
-      <button class="9977ai.vip" id="rechargeBtn">💳 进入自动充值系统</button>
+      <button class="btn-recharge" id="rechargeBtn">💳 进入自动充值系统</button>
     </div>
     <a href="#" id="openWhyTop">为什么不是更便宜</a>
     <p class="small-risk">⚠ 警惕低价黑卡，避免封号风险</p>
@@ -497,7 +497,7 @@
 <div class="sticky-note" id="bottomNote">
   <span class="note-text">📌 当前价 <strong>¥129</strong> ｜ 客服微信：<strong id="wxid">yzz0753</strong></span>
   <button class="cta-mini" id="copyWeChat">复制微信</button>
-  <button class="cta-outline" id="openWhyFooter">为什么不是更便宜</button>
+  <a href="https://work.weixin.qq.com/kfid/kfca514f0a95b0e01d1" target="_blank" class="cta-outline">联系人工客服</a>
 </div>
 
 <div class="article-modal" id="articleModal">
@@ -544,9 +544,9 @@
       <div style="font-size:3rem;">🤖</div>
       <h3>ChatGPT Plus</h3>
       <div class="compare-price">¥169 <small style="font-size:0.9rem; color:var(--gray-500)">/月</small></div>
-      <div style="font-size:0.8rem; color:#2dd4bf; margin-bottom:10px;">(新人首充仅需 ¥129)</div>
+      <div style="font-size:0.8rem; color:#2dd4bf; margin-bottom:10px;">(账号首充仅需 ¥129)</div>
       <ul style="text-align:left; font-size:0.9rem; list-style:none; padding:0;">
-        <li>✅ GPT-5.2 Thinking 模型</li>
+        <li>✅ GPT-5.2 模型</li>
         <li>✅ DALL·E 3 绘图</li>
         <li>✅ 全能型助手</li>
         <li>✅ 联网搜索</li>
@@ -558,7 +558,7 @@
       <h3>Claude Pro</h3>
       <div class="compare-price">¥169 <small style="font-size:0.9rem; color:var(--gray-500)">/月</small></div>
       <ul style="text-align:left; font-size:0.9rem; list-style:none; padding:0;">
-        <li>✅ Claude 4.5 Sonnet</li>
+        <li>✅ Claude 3.5 Sonnet</li>
         <li>✅ 200K 超长上下文</li>
         <li>✅ 代码能力最强</li>
         <li>✅ 拟人化写作</li>
@@ -568,7 +568,7 @@
     <div class="compare-card">
       <div style="font-size:3rem;">🚀</div>
       <h3>Grok</h3>
-      <div class="compare-price">¥209 <small style="font-size:0.9rem; color:var(--gray-500)">/月</small></div>
+      <div class="compare-price">¥180 <small style="font-size:0.9rem; color:var(--gray-500)">/月</small></div>
       <ul style="text-align:left; font-size:0.9rem; list-style:none; padding:0;">
         <li>✅ 实时 X 平台数据</li>
         <li>✅ 风格幽默犀利</li>
@@ -719,10 +719,19 @@
     buyBtn.addEventListener('click', () => window.open('https://fe.dtyuedan.cn/shop/VA3AB5CB', '_blank'));
   }
   
+  // 修复点：充值系统按钮跳转
+  const rechargeBtn = document.getElementById('rechargeBtn');
+  if(rechargeBtn) {
+    rechargeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.open('https://9977ai.vip', '_blank');
+    });
+  }
+  
   const copyBtn = document.getElementById('copyWeChat');
   if(copyBtn) {
     copyBtn.addEventListener('click', () => {
-      const wx = 'yzz0753'; // 更新为正确的微信号
+      const wx = 'yzz0753';
       navigator.clipboard.writeText(wx).then(() => {
         copyBtn.textContent = '已复制';
         setTimeout(() => copyBtn.textContent = '复制微信', 1500);
@@ -732,7 +741,6 @@
   }
   
   // 原有 Why Modal
-  const openWhyBtn = document.getElementById('openWhyFooter');
   const openWhyTop = document.getElementById('openWhyTop');
   const whyModal = document.getElementById('whyModal');
   const whyClose = document.getElementById('whyClose');
@@ -743,7 +751,7 @@
       whyModal.setAttribute('aria-hidden', !show);
     }
   }
-  if(openWhyBtn) openWhyBtn.addEventListener('click', (e)=>{ e.preventDefault(); toggleWhy(true); });
+  // 底部按钮已移除点击触发弹窗逻辑，改为直接跳转
   if(openWhyTop) openWhyTop.addEventListener('click', (e)=>{ e.preventDefault(); toggleWhy(true); });
   if(whyClose) whyClose.addEventListener('click', ()=>toggleWhy(false));
   if(whyModal) whyModal.addEventListener('click', (e)=>{ if(e.target===whyModal) toggleWhy(false); });
