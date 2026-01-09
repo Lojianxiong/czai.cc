@@ -196,7 +196,7 @@
     /* 文章阅读浮层 (Article Modal) */
     .article-modal {
       position: fixed; inset: 0; z-index: 110;
-      background: var(--overlay);
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
       overflow-y: auto;
       transform: translateY(100%); transition: transform 0.3s ease;
       display: flex; justify-content: center;
@@ -205,9 +205,11 @@
     .article-modal.show { transform: translateY(0); }
     
     .article-content {
-      width: 100%; max-width: 800px;
+      width: 100%; max-width: 800px; min-height: 100%;
+      background: var(--overlay);
       padding: 80px 24px 120px; /* 留出底部空间 */
       color: #e2e8f0; line-height: 1.7;
+      box-shadow: 0 0 50px rgba(0,0,0,0.5);
     }
     .article-close {
       position: fixed; top: 20px; right: 20px; z-index: 120;
@@ -245,6 +247,30 @@
     .faq-item.active .faq-a { padding: 0 20px 20px; max-height: 500px; }
     .faq-icon { transition: 0.3s; }
     .faq-item.active .faq-icon { transform: rotate(180deg); color: var(--brand-500); }
+
+    /* 文章底部 CTA 按钮组 */
+    .article-cta-box {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+    .acta-btn {
+      flex: 1; min-width: 140px;
+      padding: 14px; text-align: center; border-radius: 12px;
+      font-weight: 700; font-size: 1rem; text-decoration: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: transform 0.1s;
+    }
+    .acta-btn:active { transform: scale(0.98); }
+    .acta-buy {
+      background: linear-gradient(135deg, var(--brand-600), var(--brand-500));
+      color: #fff; box-shadow: 0 4px 12px rgba(20, 184, 166, 0.3); border: none;
+    }
+    .acta-cs {
+      background: rgba(255,255,255,0.05); color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .acta-cs:hover { background: rgba(255,255,255,0.1); }
 
 
     /* =========================================
@@ -533,6 +559,11 @@
     <li><strong>优化提示词：</strong>提供背景信息、指定输出格式、设定角色扮演。</li>
     <li><strong>自定义指令：</strong>在设置中配置自定义指令，让 AI 记住您的偏好。</li>
   </ul>
+  
+  <div class="article-cta-box">
+    <button class="acta-btn acta-buy" onclick="window.open('https://fe.dtyuedan.cn/shop/VA3AB5CB')">🛒 立即购买</button>
+    <a href="https://work.weixin.qq.com/kfid/kfca514f0a95b0e01d1" target="_blank" class="acta-btn acta-cs">💬 联系客服</a>
+  </div>
 </template>
 
 <template id="tpl-compare">
@@ -584,6 +615,11 @@
     <li><strong>程序员/写代码：</strong>强烈推荐 <strong style="color:var(--brand-500)">Claude Pro</strong>，逻辑能力出色。</li>
     <li><strong>实时新闻：</strong><strong style="color:var(--brand-500)">Grok</strong> 接入 X 平台数据，消息最灵通。</li>
   </ul>
+
+  <div class="article-cta-box">
+    <button class="acta-btn acta-buy" onclick="window.open('https://fe.dtyuedan.cn/shop/VA3AB5CB')">🛒 立即购买</button>
+    <a href="https://work.weixin.qq.com/kfid/kfca514f0a95b0e01d1" target="_blank" class="acta-btn acta-cs">💬 联系客服</a>
+  </div>
 </template>
 
 <template id="tpl-faq">
@@ -607,6 +643,11 @@
   <div class="faq-item">
     <div class="faq-q">充值失败怎么办？ <span class="faq-icon">▼</span></div>
     <div class="faq-a">请直接联系右下角客服。无论是退款还是补单，我们都提供 100% 售后保障。</div>
+  </div>
+
+  <div class="article-cta-box">
+    <button class="acta-btn acta-buy" onclick="window.open('https://fe.dtyuedan.cn/shop/VA3AB5CB')">🛒 立即购买</button>
+    <a href="https://work.weixin.qq.com/kfid/kfca514f0a95b0e01d1" target="_blank" class="acta-btn acta-cs">💬 联系客服</a>
   </div>
 </template>
 
@@ -669,6 +710,13 @@
     articleModal.classList.remove('show');
     document.body.style.overflow = '';
   }
+
+  // 修复：点击弹窗背景关闭弹窗
+  articleModal.addEventListener('click', function(e) {
+    if (e.target === articleModal) {
+      closeArticle();
+    }
+  });
 
   // FAQ 折叠逻辑
   function bindFaqEvents() {
