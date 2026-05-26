@@ -894,54 +894,116 @@
       const SHOP_URL = 'https://fe.dtyuedan.cn/shop/CAVTRQSS';
 
     /* ================= 近期购买动态轮播 ================= */
-    (function() {
-        const purchaseFeedCard = document.getElementById('purchase-feed-card');
-        const purchaseFeedUser = document.getElementById('purchase-feed-user');
-        const purchaseFeedProduct = document.getElementById('purchase-feed-product');
+(function() {
+    const purchaseFeedCard = document.getElementById('purchase-feed-card');
+    const purchaseFeedUser = document.getElementById('purchase-feed-user');
+    const purchaseFeedProduct = document.getElementById('purchase-feed-product');
 
-        const purchaseRecords = [
-            '137****7699', '139****2846', '188****5127', '156****9382', '185****4701', '173****6625',
-            '132****1058', '151****7349', '199****3860', '186****9214', '134****5807', '158****2473',
-            '177****6902', '189****3156', '182****8461', '131****5029', '155****1784', '198****9635',
-            '136****4072', '150****8296', '187****6140', '152****3908', '178****2579', '135****7816',
-            '166****0437', '159****6285', '180****9142', '183****5061', '147****2738', '181****8590',
-            '133****6247', '157****1905', '176****7318', '138****4629', '191****8056', '184****2397',
-            '130****6741', '153****9186', '175****0524', '192****3875', '188****7460', '149****6312',
-            '172****0958', '195****2841', '186****5703', '137****4186', '139****7520', '158****6039',
-            '177****2485', '189****9367', '182****5714', '151****0862', '199****4278', '185****3190',
-            '156****8643', '134****2057', '150****6981', '136****9405', '133****1762', '157****5830',
-            '180****7294', '183****4618', '191****0376', '198****6925', '152****8159', '178****3046',
-            '135****9571', '166****6208', '132****4735', '173****1896', '181****5482', '147****7903'
-        ];
+    const purchaseRecords = [
+        { user: '137****7699', product: '购买了 GPT Plus' },
+        { user: '139****2846', product: '购买了 GPT Pro' },
+        { user: '188****5127', product: '购买了 Grok 4.3 官方会员' },
+        { user: '156****9382', product: '购买了 Claude Pro 官方会员' },
+        { user: '185****4701', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '173****6625', product: '购买了 GPT 5.5 Plus 续费' },
+        { user: '132****1058', product: '购买了 GPT Plus' },
+        { user: '151****7349', product: '购买了 Grok 4.3 官方会员' },
+        { user: '199****3860', product: '购买了 GPT Pro' },
+        { user: '186****9214', product: '购买了 Claude Pro 官方会员' },
+        { user: '134****5807', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '158****2473', product: '购买了 GPT Plus' },
+        { user: '177****6902', product: '购买了 GPT 5.5 Plus 续费' },
+        { user: '189****3156', product: '购买了 Grok 4.3 官方会员' },
+        { user: '182****8461', product: '购买了 GPT Pro' },
+        { user: '131****5029', product: '购买了 Claude Pro 官方会员' },
+        { user: '155****1784', product: '购买了 GPT Plus' },
+        { user: '198****9635', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '136****4072', product: '购买了 Grok 4.3 官方会员' },
+        { user: '150****8296', product: '购买了 GPT Pro' },
+        { user: '187****6140', product: '购买了 Claude Pro 官方会员' },
+        { user: '152****3908', product: '购买了 GPT Plus' },
+        { user: '178****2579', product: '购买了 GPT 5.5 Plus 续费' },
+        { user: '135****7816', product: '购买了 GPT Pro' },
+        { user: '166****0437', product: '购买了 Grok 4.3 官方会员' },
+        { user: '159****6285', product: '购买了 Claude Pro 官方会员' },
+        { user: '180****9142', product: '购买了 GPT Plus' },
+        { user: '183****5061', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '147****2738', product: '购买了 GPT Pro' },
+        { user: '181****8590', product: '购买了 Grok 4.3 官方会员' },
+        { user: '133****6247', product: '购买了 Claude Pro 官方会员' },
+        { user: '157****1905', product: '购买了 GPT Plus' },
+        { user: '176****7318', product: '购买了 GPT 5.5 Plus 续费' },
+        { user: '138****4629', product: '购买了 GPT Pro' },
+        { user: '191****8056', product: '购买了 Grok 4.3 官方会员' },
+        { user: '184****2397', product: '购买了 Claude Pro 官方会员' },
+        { user: '130****6741', product: '购买了 GPT Plus' },
+        { user: '153****9186', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '175****0524', product: '购买了 GPT Pro' },
+        { user: '192****3875', product: '购买了 Grok 4.3 官方会员' },
+        { user: '188****7460', product: '购买了 Claude Pro 官方会员' },
+        { user: '149****6312', product: '购买了 GPT Plus' },
+        { user: '172****0958', product: '购买了 GPT 5.5 Plus 续费' },
+        { user: '195****2841', product: '购买了 GPT Pro' },
+        { user: '186****5703', product: '购买了 Grok 4.3 官方会员' },
+        { user: '137****4186', product: '购买了 Claude Pro 官方会员' },
+        { user: '139****7520', product: '购买了 GPT Plus' },
+        { user: '158****6039', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '177****2485', product: '购买了 GPT Pro' },
+        { user: '189****9367', product: '购买了 Grok 4.3 官方会员' },
+        { user: '182****5714', product: '购买了 Claude Pro 官方会员' },
+        { user: '151****0862', product: '购买了 GPT Plus' },
+        { user: '199****4278', product: '购买了 GPT 5.5 Plus 续费' },
+        { user: '185****3190', product: '购买了 GPT Pro' },
+        { user: '156****8643', product: '购买了 Grok 4.3 官方会员' },
+        { user: '134****2057', product: '购买了 Claude Pro 官方会员' },
+        { user: '150****6981', product: '购买了 GPT Plus' },
+        { user: '136****9405', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '133****1762', product: '购买了 GPT Pro' },
+        { user: '157****5830', product: '购买了 Grok 4.3 官方会员' },
+        { user: '180****7294', product: '购买了 Claude Pro 官方会员' },
+        { user: '183****4618', product: '购买了 GPT Plus' },
+        { user: '191****0376', product: '购买了 GPT 5.5 Plus 续费' },
+        { user: '198****6925', product: '购买了 GPT Pro' },
+        { user: '152****8159', product: '购买了 Grok 4.3 官方会员' },
+        { user: '178****3046', product: '购买了 Claude Pro 官方会员' },
+        { user: '135****9571', product: '购买了 GPT Plus' },
+        { user: '166****6208', product: '购买了 GPT 5.5 Plus 首单' },
+        { user: '132****4735', product: '购买了 GPT Pro' },
+        { user: '173****1896', product: '购买了 Grok 4.3 官方会员' },
+        { user: '181****5482', product: '购买了 Claude Pro 官方会员' },
+        { user: '147****7903', product: '购买了 GPT 5.5 Plus 续费' }
+    ];
 
-        if (!purchaseFeedCard || !purchaseFeedUser || !purchaseFeedProduct) return;
+    if (!purchaseFeedCard || !purchaseFeedUser || !purchaseFeedProduct) return;
 
-        let currentIndex = 0;
+    let currentIndex = 0;
 
-        function renderPurchase(index) {
-            purchaseFeedCard.classList.remove('is-changing');
-            void purchaseFeedCard.offsetWidth;
+    function renderPurchase(index) {
+        const record = purchaseRecords[index];
 
-            purchaseFeedUser.textContent = '用户 ' + purchaseRecords[index];
-            purchaseFeedProduct.textContent = '购买了 GPT Plus';
-            purchaseFeedCard.classList.add('is-changing');
-        }
+        purchaseFeedCard.classList.remove('is-changing');
+        void purchaseFeedCard.offsetWidth;
 
-        function nextDelay() {
-            return 3000 + Math.floor(Math.random() * 2001);
-        }
+        purchaseFeedUser.textContent = '用户 ' + record.user;
+        purchaseFeedProduct.textContent = record.product;
+        purchaseFeedCard.classList.add('is-changing');
+    }
 
-        function scheduleNext() {
-            window.setTimeout(() => {
-                currentIndex = (currentIndex + 1) % purchaseRecords.length;
-                renderPurchase(currentIndex);
-                scheduleNext();
-            }, nextDelay());
-        }
+    function nextDelay() {
+        return 5000 + Math.floor(Math.random() * 2001);
+    }
 
-        renderPurchase(currentIndex);
-        scheduleNext();
-    })();
+    function scheduleNext() {
+        window.setTimeout(() => {
+            currentIndex = (currentIndex + 1) % purchaseRecords.length;
+            renderPurchase(currentIndex);
+            scheduleNext();
+        }, nextDelay());
+    }
+
+    renderPurchase(currentIndex);
+    scheduleNext();
+})();
 
     (function() {
         const fixedContactBtn = document.getElementById('fixed-contact-btn');
