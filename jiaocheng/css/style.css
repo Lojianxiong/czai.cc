@@ -206,6 +206,78 @@ main {
   outline-offset: 4px;
 }
 
+.contact-copy-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.copy-button {
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copy-button:hover {
+  background: #1d4ed8;
+}
+
+.copy-button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.4);
+  outline-offset: 3px;
+}
+
+.copy-button-light {
+  background: #ffffff;
+  color: #172033;
+}
+
+.copy-button-light:hover {
+  background: #eaf1ff;
+}
+
+.image-dialog {
+  width: min(94vw, 1280px);
+  max-width: none;
+  padding: 48px 18px 18px;
+  border: 0;
+  border-radius: 18px;
+  background: #111827;
+}
+
+.image-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.image-dialog img {
+  display: block;
+  width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
 .review-placeholder {
   display: grid;
   gap: 6px;
@@ -303,83 +375,6 @@ main {
 .contact-placeholder span {
   color: rgba(255, 255, 255, 0.65);
   font-size: 14px;
-}
-
-.contact-copy-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  margin-top: 14px;
-}
-
-.copy-button {
-  min-height: 40px;
-  padding: 8px 16px;
-  border: 0;
-  border-radius: 10px;
-  background: var(--primary);
-  color: #ffffff;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.copy-button:hover {
-  background: #1d4ed8;
-}
-
-.copy-button:focus-visible {
-  outline: 3px solid rgba(37, 99, 235, 0.4);
-  outline-offset: 3px;
-}
-
-.copy-button-light {
-  width: fit-content;
-  margin-top: 10px;
-  background: #ffffff;
-  color: var(--text);
-}
-
-.copy-button-light:hover {
-  background: var(--primary-soft);
-}
-
-.image-dialog {
-  width: min(94vw, 1280px);
-  max-width: none;
-  padding: 48px 18px 18px;
-  border: 0;
-  border-radius: 18px;
-  background: #111827;
-}
-
-.image-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.82);
-}
-
-.image-dialog img {
-  display: block;
-  width: 100%;
-  max-height: 82vh;
-  object-fit: contain;
-}
-
-.dialog-close {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
 }
 
 footer {
