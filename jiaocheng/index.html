@@ -778,6 +778,76 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /* Video tutorial: scoped styles preserve the existing page. */
+    .video-guide {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      margin-top: 36px;
+      padding: 24px;
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-md);
+      background: linear-gradient(120deg, rgba(21, 43, 65, .85), rgba(16, 21, 39, .9));
+    }
+    .video-launch {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0;
+      border: 0;
+      color: var(--text);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+    .video-play {
+      display: grid;
+      flex: 0 0 68px;
+      height: 68px;
+      place-items: center;
+      border: 1px solid rgba(85, 231, 255, .45);
+      border-radius: 20px;
+      color: var(--cyan);
+      background: rgba(85, 231, 255, .1);
+      transition: background 180ms ease, transform 180ms ease;
+    }
+    .video-play svg { width: 26px; height: 26px; }
+    .video-launch:hover .video-play { background: rgba(85, 231, 255, .2); transform: scale(1.04); }
+    .video-title { display: block; margin: 0 0 4px; font-size: 1.2rem; font-weight: 750; }
+    .video-caption { display: block; color: var(--muted); font-size: .9rem; }
+    .video-skip { padding: 10px 0; font-size: .9rem; white-space: nowrap; }
+    .video-launch:focus-visible, .video-skip:focus-visible, .video-close:focus-visible {
+      outline: 2px solid var(--cyan); outline-offset: 5px; border-radius: 8px;
+    }
+    .video-dialog {
+      width: min(960px, calc(100vw - 28px));
+      max-width: none;
+      max-height: calc(100dvh - 28px);
+      padding: 0;
+      overflow: auto;
+      border: 1px solid var(--line-bright);
+      border-radius: 18px;
+      color: var(--text);
+      background: #080c14;
+      box-shadow: var(--shadow);
+    }
+    .video-dialog::backdrop { background: rgba(1, 3, 8, .88); backdrop-filter: blur(8px); }
+    .video-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px 10px 20px; }
+    .video-toolbar h2 { margin: 0; font-size: 1rem; }
+    .video-close { width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; color: white; background: var(--surface); font-size: 1.5rem; cursor: pointer; }
+    .video-player { display: block; width: 100%; height: auto; max-height: calc(100dvh - 160px); background: #000; }
+    .video-help { margin: 0; padding: 12px 20px; color: var(--muted); font-size: .8rem; }
+    #steps-title { scroll-margin-top: 24px; }
+    @media (max-width: 600px) {
+      .video-guide { grid-template-columns: 1fr; gap: 14px; padding: 20px; }
+      .video-launch { gap: 14px; }
+      .video-play { flex-basis: 54px; height: 54px; border-radius: 16px; }
+      .video-title { font-size: 1.08rem; }
+      .video-caption { font-size: .82rem; }
+      .video-skip { justify-self: start; margin-left: 68px; padding: 6px 0; }
+    }
   </style>
 </head>
 <body>
@@ -803,6 +873,14 @@
       </div>
       <button class="copy-button" type="button" data-copy="Aiplus007" aria-label="复制客服号码 Aiplus007">复制号码</button>
     </aside>
+
+    <section class="video-guide" aria-label="视频教程">
+      <button class="video-launch" type="button" id="video-launch" aria-haspopup="dialog" aria-controls="video-dialog">
+        <span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 4.5v15l12-7.5z"/></svg></span>
+        <span><span class="video-title">视频教程</span><span class="video-caption">约 46 秒 · 点击放大观看，可随时暂停</span></span>
+      </button>
+      <a class="video-skip" href="#steps-title">直接看图文教程 ↓</a>
+    </section>
 
     <section class="section" aria-labelledby="steps-title">
       <div class="section-heading">
@@ -918,6 +996,18 @@
     <img id="dialog-image" src="" alt="">
   </dialog>
 
+  <dialog class="video-dialog" id="video-dialog" aria-labelledby="video-dialog-title">
+    <div class="video-toolbar">
+      <h2 id="video-dialog-title">视频教程</h2>
+      <button class="video-close" type="button" aria-label="关闭视频" autofocus>×</button>
+    </div>
+    <video class="video-player" id="tutorial-video" controls playsinline preload="none" width="1200" height="720">
+      <source src="./tutorial-video.mp4" type="video/mp4">
+      您的浏览器暂不支持播放视频，请使用下方链接打开。
+    </video>
+    <p class="video-help">点击外侧空白处或右上角 × 关闭 · <a href="./tutorial-video.mp4" target="_blank" rel="noopener">单独打开视频</a></p>
+  </dialog>
+
   <footer>
     <div class="container">
       <p>本页面为独立教程模板，并非 OpenAI 官方网站，也不代表 OpenAI。</p>
@@ -991,6 +1081,43 @@
     imageDialog.addEventListener("close", function () {
       dialogImage.src = "";
       dialogImage.alt = "";
+    });
+
+    const videoDialog = document.getElementById("video-dialog");
+    const tutorialVideo = document.getElementById("tutorial-video");
+    const videoLaunch = document.getElementById("video-launch");
+    let previousOverflow = "";
+    let backdropPointerDown = false;
+
+    videoLaunch.addEventListener("click", function () {
+      previousOverflow = document.body.style.overflow;
+      videoDialog.showModal();
+      document.body.style.overflow = "hidden";
+      if (tutorialVideo.ended) tutorialVideo.currentTime = 0;
+      tutorialVideo.play().catch(function () {
+        // Native controls remain available if the browser blocks playback.
+      });
+    });
+    videoDialog.querySelector(".video-close").addEventListener("click", function () {
+      videoDialog.close();
+    });
+    function isVideoBackdrop(event) {
+      const rect = videoDialog.getBoundingClientRect();
+      return event.target === videoDialog &&
+        (event.clientX < rect.left || event.clientX > rect.right ||
+         event.clientY < rect.top || event.clientY > rect.bottom);
+    }
+    videoDialog.addEventListener("pointerdown", function (event) {
+      backdropPointerDown = isVideoBackdrop(event);
+    });
+    videoDialog.addEventListener("click", function (event) {
+      if (backdropPointerDown && isVideoBackdrop(event)) videoDialog.close();
+      backdropPointerDown = false;
+    });
+    videoDialog.addEventListener("close", function () {
+      tutorialVideo.pause();
+      document.body.style.overflow = previousOverflow;
+      videoLaunch.focus({ preventScroll: true });
     });
   </script>
 </body>
