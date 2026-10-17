@@ -781,20 +781,19 @@
 
     /* Video tutorial: scoped styles preserve the existing page. */
     .video-guide {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 24px;
+      position: relative;
       margin-top: 36px;
-      padding: 24px;
+      padding: 22px;
       border: 1px solid var(--line-bright);
       border-radius: var(--radius-md);
       background: linear-gradient(120deg, rgba(21, 43, 65, .85), rgba(16, 21, 39, .9));
     }
     .video-launch {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(240px, 42%) minmax(0, 1fr);
       align-items: center;
-      gap: 20px;
+      gap: 32px;
+      width: 100%;
       padding: 0;
       border: 0;
       color: var(--text);
@@ -802,22 +801,41 @@
       text-align: left;
       cursor: pointer;
     }
-    .video-play {
-      display: grid;
-      flex: 0 0 68px;
-      height: 68px;
-      place-items: center;
-      border: 1px solid rgba(85, 231, 255, .45);
-      border-radius: 20px;
-      color: var(--cyan);
-      background: rgba(85, 231, 255, .1);
-      transition: background 180ms ease, transform 180ms ease;
+    .video-thumbnail {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      aspect-ratio: 5 / 3;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 14px;
+      background: #080c14;
     }
-    .video-play svg { width: 26px; height: 26px; }
-    .video-launch:hover .video-play { background: rgba(85, 231, 255, .2); transform: scale(1.04); }
-    .video-title { display: block; margin: 0 0 4px; font-size: 1.2rem; font-weight: 750; }
-    .video-caption { display: block; color: var(--muted); font-size: .9rem; }
-    .video-skip { padding: 10px 0; font-size: .9rem; white-space: nowrap; }
+    .video-thumbnail img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .video-thumbnail::after { position: absolute; inset: 0; content: ""; background: linear-gradient(transparent 45%, rgba(0,0,0,.65)); }
+    .video-play {
+      position: absolute;
+      z-index: 1;
+      top: 50%; left: 50%;
+      display: grid;
+      width: 64px; height: 64px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.65);
+      border-radius: 50%;
+      color: #07121c;
+      background: #fff;
+      box-shadow: 0 6px 32px rgba(0,0,0,.4);
+      transform: translate(-50%, -50%);
+      transition: background 180ms ease, scale 180ms ease;
+    }
+    .video-play svg { width: 28px; height: 28px; }
+    .video-launch:hover .video-play { background: var(--cyan); scale: 1.08; }
+    .video-duration { position: absolute; z-index: 1; right: 10px; bottom: 10px; padding: 2px 8px; border-radius: 5px; background: rgba(0,0,0,.75); color: #fff; font-size: .8rem; font-variant-numeric: tabular-nums; }
+    .video-description { display: block; padding-bottom: 38px; }
+    .video-label { display: block; margin-bottom: 8px; color: var(--cyan); font-size: .78rem; letter-spacing: .12em; }
+    .video-title { display: block; margin: 0 0 10px; font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 750; }
+    .video-caption { display: block; color: var(--muted); font-size: .95rem; }
+    .video-watch { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; color: var(--cyan); font-size: .95rem; font-weight: 700; }
+    .video-skip { position: absolute; left: calc(42% + 36px); bottom: 24px; padding: 6px 0; font-size: .9rem; }
     .video-launch:focus-visible, .video-skip:focus-visible, .video-close:focus-visible {
       outline: 2px solid var(--cyan); outline-offset: 5px; border-radius: 8px;
     }
@@ -841,12 +859,14 @@
     .video-help { margin: 0; padding: 12px 20px; color: var(--muted); font-size: .8rem; }
     #steps-title { scroll-margin-top: 24px; }
     @media (max-width: 600px) {
-      .video-guide { grid-template-columns: 1fr; gap: 14px; padding: 20px; }
-      .video-launch { gap: 14px; }
-      .video-play { flex-basis: 54px; height: 54px; border-radius: 16px; }
-      .video-title { font-size: 1.08rem; }
-      .video-caption { font-size: .82rem; }
-      .video-skip { justify-self: start; margin-left: 68px; padding: 6px 0; }
+      .video-guide { padding: 14px; }
+      .video-launch { grid-template-columns: 1fr; gap: 20px; }
+      .video-thumbnail { width: 100%; }
+      .video-description { padding: 0 6px; }
+      .video-title { font-size: 1.4rem; }
+      .video-caption { font-size: .88rem; }
+      .video-watch { margin-top: 14px; }
+      .video-skip { position: static; display: inline-block; margin: 16px 6px 4px; }
     }
   </style>
 </head>
@@ -875,9 +895,13 @@
     </aside>
 
     <section class="video-guide" aria-label="视频教程">
-      <button class="video-launch" type="button" id="video-launch" aria-haspopup="dialog" aria-controls="video-dialog">
-        <span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 4.5v15l12-7.5z"/></svg></span>
-        <span><span class="video-title">视频教程</span><span class="video-caption">约 46 秒 · 点击放大观看，可随时暂停</span></span>
+      <button class="video-launch" type="button" id="video-launch" aria-label="播放视频教程，约46秒" aria-haspopup="dialog" aria-controls="video-dialog">
+        <span class="video-thumbnail">
+          <img src="./video-thumbnail.jpg" alt="视频教程画面预览" width="1200" height="720">
+          <span class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 4.5v15l12-7.5z"/></svg></span>
+          <span class="video-duration">00:46</span>
+        </span>
+        <span class="video-description"><span class="video-label">视频演示 · 约 46 秒</span><span class="video-title">跟着视频，轻松操作</span><span class="video-caption">先看视频演示，也可以直接阅读下方图文步骤。</span><span class="video-watch">点击播放视频 ↗</span></span>
       </button>
       <a class="video-skip" href="#steps-title">直接看图文教程 ↓</a>
     </section>
@@ -1001,7 +1025,7 @@
       <h2 id="video-dialog-title">视频教程</h2>
       <button class="video-close" type="button" aria-label="关闭视频" autofocus>×</button>
     </div>
-    <video class="video-player" id="tutorial-video" controls playsinline preload="none" width="1200" height="720">
+    <video class="video-player" id="tutorial-video" controls playsinline preload="none" poster="./video-thumbnail.jpg" width="1200" height="720">
       <source src="./tutorial-video.mp4" type="video/mp4">
       您的浏览器暂不支持播放视频，请使用下方链接打开。
     </video>
